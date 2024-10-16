@@ -2,13 +2,13 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
-import { z, ZodError } from "zod";
+import { ZodError, z } from "zod";
 
 expand(config());
 
 export const env = createEnv({
   server: {
-    NODE_ENV:z.enum(["development","production"]).default("development")
+    NODE_ENV: z.enum(["development", "production"]).default("development"),
   },
   client: {},
   onValidationError: (error: ZodError) => {
