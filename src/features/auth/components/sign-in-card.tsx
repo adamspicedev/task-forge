@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -18,11 +21,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useSignin } from "../api/use-signin";
+import { useSignIn } from "../api/use-signin";
 import { signInSchema } from "../schemas";
 
 export function SignInCard() {
-  const { mutate } = useSignin();
+  const { mutate, isPending } = useSignIn();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -78,8 +81,12 @@ export function SignInCard() {
                 </FormItem>
               )}
             />
-            <Button disabled={false} className="w-full" type="submit">
-              Sign in
+            <Button disabled={isPending} className="w-full" type="submit">
+              {isPending ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                "Sign in"
+              )}
             </Button>
           </form>
         </Form>
@@ -92,7 +99,7 @@ export function SignInCard() {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle />
           Sign in with Google
@@ -101,7 +108,7 @@ export function SignInCard() {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FaGithub />
           Sign in with Github

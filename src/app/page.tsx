@@ -1,26 +1,15 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { protectPage } from "@/features/auth/actions";
+import { UserButton } from "@/features/auth/components/user-button";
 
-import { Button } from "@/components/ui/button";
-import { useCurrent } from "@/features/auth/api/use-current";
-import { useSignout } from "@/features/auth/api/use-signout";
-
-export default function Home() {
-  const router = useRouter();
-  const { data, isLoading } = useCurrent();
-  const { mutate } = useSignout();
-
-  useEffect(() => {
-    if (!data && !isLoading) {
-      router.push("/sign-in");
-    }
-  }, [data]);
+export default async function Home() {
+  const user = await protectPage();
+  if (!user) redirect("/sign-in");
 
   return (
-    <div className="flex gap-4">
-      <Button onClick={() => mutate()}>Sign Out</Button>
+    <div>
+      <UserButton />
     </div>
   );
 }
