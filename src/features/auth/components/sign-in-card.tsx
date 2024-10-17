@@ -17,24 +17,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { passwordSchema } from "@/lib/validation-helpers";
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: passwordSchema,
-});
+import { useSignin } from "../api/use-signin";
+import { signInSchema } from "../schemas";
 
 export function SignInCard() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useSignin();
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = (values: z.infer<typeof signInSchema>) => {
+    mutate({ json: values });
   };
 
   return (

@@ -1,6 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
-  "plugins": ["check-file", "n"],
+  "plugins": ["check-file"],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -18,7 +18,6 @@
     "prefer-template": ["error"],
     "semi": ["error"],
     "quotes": ["error", "double"],
-    "n/no-process-env": ["error"],
     "check-file/filename-naming-convention": [
       "error",
       {
