@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
@@ -106,6 +108,17 @@ export function SignInCard() {
           <FaGithub />
           Sign in with Github
         </Button>
+      </CardContent>
+      <div className="px-7">
+        <DottedSeparator />
+      </div>
+      <CardContent className="flex flex-col gap-y-4 p-7">
+        <p className="text-center text-sm text-neutral-500">
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up">
+            <span className="text-blue-700">Sign up</span>
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );
