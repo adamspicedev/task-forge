@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
 import { protectPage } from "@/features/auth/actions";
-import { UserButton } from "@/features/auth/components/user-button";
 
 export default async function Home() {
   const user = await protectPage();
@@ -9,7 +8,7 @@ export default async function Home() {
 
   return (
     <div>
-      <UserButton />
+      <h1>This is the home page</h1>
     </div>
   );
 }
