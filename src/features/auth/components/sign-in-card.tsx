@@ -24,9 +24,11 @@ import { Input } from "@/components/ui/input";
 import { useSignIn } from "../api/use-signin";
 import { signInSchema } from "../schemas";
 
+type SignInFormSchema = z.infer<typeof signInSchema>;
+
 export function SignInCard() {
   const { mutate, isPending } = useSignIn();
-  const form = useForm<z.infer<typeof signInSchema>>({
+  const form = useForm<SignInFormSchema>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
@@ -34,7 +36,7 @@ export function SignInCard() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signInSchema>) => {
+  const onSubmit = (values: SignInFormSchema) => {
     mutate({ json: values });
   };
 
