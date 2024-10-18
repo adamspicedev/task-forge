@@ -30,9 +30,11 @@ import { Input } from "@/components/ui/input";
 import { useSignUp } from "../api/use-signup";
 import { signUpSchema } from "../schemas";
 
+type SignUpFormSchema = z.infer<typeof signUpSchema>;
+
 export function SignUpCard() {
   const { mutate, isPending } = useSignUp();
-  const form = useForm<z.infer<typeof signUpSchema>>({
+  const form = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",

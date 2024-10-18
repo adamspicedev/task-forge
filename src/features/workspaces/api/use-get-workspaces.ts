@@ -2,14 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
-export const useCurrent = () => {
+export const useGetWorkspaces = () => {
   return useQuery({
-    queryKey: ["current"],
+    queryKey: ["workspaces"],
     queryFn: async () => {
-      const response = await client.api.auth.current.$get();
+      const response = await client.api.workspaces.$get();
 
       if (!response.ok) {
-        throw new Error("Failed to get current user");
+        throw new Error("Failed to get workspaces");
       }
 
       const { data } = await response.json();
