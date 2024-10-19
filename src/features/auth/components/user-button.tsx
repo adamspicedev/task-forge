@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrent } from "@/features/auth/api/use-current";
 
-import { useSignOut } from "../api/use-signout";
+import { useSignOut } from "../api/use-sign-out";
 
 export const UserButton = () => {
   const { data: user, isLoading } = useCurrent();

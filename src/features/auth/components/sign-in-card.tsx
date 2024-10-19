@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useSignIn } from "../api/use-signin";
+import { useSignIn } from "../api/use-sign-in";
 import { signInSchema } from "../schemas";
 
 type SignInFormSchema = z.infer<typeof signInSchema>;

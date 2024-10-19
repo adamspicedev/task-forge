@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,9 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { useCreateWorkspace } from "../api/use-create-workspace";
-import { createWorkspaceSchema } from "../schemas";
+import { useCreateWorkspace } from "@/features/workspaces/api/use-create-workspace";
+import { createWorkspaceSchema } from "@/features/workspaces/schemas";
+import { cn } from "@/lib/utils";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
@@ -33,6 +34,7 @@ type CreateWorkspaceFormSchema = z.infer<typeof createWorkspaceSchema>;
 
 export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
   const { mutate, isPending } = useCreateWorkspace();
+  const router = useRouter();
   const uploadInputRef = useRef<HTMLInputElement>(null);
   const form = useForm<CreateWorkspaceFormSchema>({
     resolver: zodResolver(createWorkspaceSchema),
@@ -51,9 +53,10 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
     mutate(
       { form: finalValues },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.reset();
-          // TODO: redirect to the new workspace
+          onCancel?.();
+          router.push(`/workspaces/${data.$id}`);
         },
       }
     );
@@ -133,16 +136,34 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                           disabled={isPending}
                           onChange={handleImageChange}
                         />
-                        <Button
-                          disabled={isPending}
-                          type="button"
-                          variant="tertiary"
-                          size="xs"
-                          className="mt-2 w-fit"
-                          onClick={() => uploadInputRef.current?.click()}
-                        >
-                          Upload Image
-                        </Button>
+                        {field.value ? (
+                          <Button
+                            disabled={isPending}
+                            type="button"
+                            variant="destructive"
+                            size="xs"
+                            className="mt-2 w-fit"
+                            onClick={() => {
+                              field.onChange(null);
+                              if (uploadInputRef.current) {
+                                uploadInputRef.current.value = "";
+                              }
+                            }}
+                          >
+                            Remove Image
+                          </Button>
+                        ) : (
+                          <Button
+                            disabled={isPending}
+                            type="button"
+                            variant="tertiary"
+                            size="xs"
+                            className="mt-2 w-fit"
+                            onClick={() => uploadInputRef.current?.click()}
+                          >
+                            Upload Image
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -152,10 +173,11 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
             <DottedSeparator className="py-7" />
             <div className="flex justify-between">
               <Button
-                variant="destructive"
+                variant="secondary"
                 type="button"
                 onClick={onCancel}
                 disabled={isPending}
+                className={cn(!onCancel && "invisible")}
               >
                 Cancel
               </Button>
