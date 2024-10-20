@@ -50,8 +50,8 @@ export function Navigation() {
       {routes.map((route) => {
         const fullPath = `/workspaces/${workspaceId}${route.href}`;
         const isActive = pathname === fullPath;
-        console.log(isActive);
         const Icon = isActive ? route.activeIcon : route.icon;
+
         return (
           <li key={route.href}>
             <Link href={{ pathname: fullPath }}>

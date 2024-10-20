@@ -42,13 +42,29 @@ export async function getWorkspace(workspaceId: string) {
 
     if (!member) return null;
 
-    const workspaces = await databases.getDocument<Workspace>(
+    const workspace = await databases.getDocument<Workspace>(
       DATABASE_ID,
       WORKSPACES_ID,
       workspaceId
     );
 
-    return workspaces;
+    return workspace;
+  } catch (_error) {
+    return null;
+  }
+}
+
+export async function getWorkspaceInfo(workspaceId: string) {
+  try {
+    const { databases } = await createSessionClient();
+
+    const workspace = await databases.getDocument<Workspace>(
+      DATABASE_ID,
+      WORKSPACES_ID,
+      workspaceId
+    );
+
+    return { name: workspace.name };
   } catch (_error) {
     return null;
   }

@@ -25,3 +25,6 @@ export const updateWorkspaceSchema = z.object({
       .optional(),
   ]),
 });
+export const joinWorkspaceSchema = z.object({
+  code: z.string().trim().min(1, { message: "Invite code is required" }),
+});
