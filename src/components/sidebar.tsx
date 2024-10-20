@@ -14,6 +14,7 @@ export function Sidebar() {
       </Link>
       <DottedSeparator className="my-4" />
       <WorkspaceSwitcher />
+      <DottedSeparator className="my-4" />
       <Navigation />
     </aside>
   );
