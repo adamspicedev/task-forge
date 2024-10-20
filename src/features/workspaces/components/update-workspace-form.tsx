@@ -5,16 +5,11 @@ import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ArrowLeftIcon,
-  CheckIcon,
-  CopyIcon,
-  ImageIcon,
-  Loader,
-} from "lucide-react";
+import { CheckIcon, CopyIcon, ImageIcon, Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { BackButton } from "@/components/back-button";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -148,18 +143,7 @@ export function UpdateWorkspaceForm({
       <ResetDialog />
       <Card className="h-full w-full border-none shadow-sm">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={
-              onCancel
-                ? onCancel
-                : () => router.push(`/workspaces/${initialValues.$id}`)
-            }
-          >
-            <ArrowLeftIcon className="mr-2 size-4" />
-            Back
-          </Button>
+          <BackButton workSpaceId={initialValues.$id} onCancel={onCancel} />
           <CardTitle className="text-xl font-bold">
             {initialValues.name}
           </CardTitle>
