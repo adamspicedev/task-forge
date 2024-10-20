@@ -9,6 +9,10 @@ import { client } from "@/lib/rpc";
 type ResponseType = InferResponseType<(typeof client.api.auth.signup)["$post"]>;
 type RequestType = InferRequestType<(typeof client.api.auth.signup)["$post"]>;
 
+/**
+ * @description Hook for signing up
+ * @returns Mutation function
+ */
 export const useSignUp = () => {
   const queryClient = useQueryClient();
   const router = useRouter();

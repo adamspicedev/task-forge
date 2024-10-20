@@ -2,6 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
+/**
+ * @description Hook for getting workspaces
+ * @returns Query function
+ */
 export const useGetWorkspaces = () => {
   return useQuery({
     queryKey: ["workspaces"],

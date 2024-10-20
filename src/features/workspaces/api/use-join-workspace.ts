@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.workspaces)[":workspaceId"]["join"]["$post"]
 >;
 
+/**
+ * @description Hook for joining a workspace
+ * @returns Mutation function
+ */
 export const useJoinWorkspace = () => {
   const queryClient = useQueryClient();
 

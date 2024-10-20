@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.members)[":memberId"]["$delete"]
 >;
 
+/**
+ * @description Hook for deleting a member
+ * @returns Mutation function
+ */
 export const useDeleteMember = () => {
   const queryClient = useQueryClient();
 

@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.workspaces)[":workspaceId"]["$delete"]
 >;
 
+/**
+ * @description Hook for deleting a workspace
+ * @returns Mutation function
+ */
 export const useDeleteWorkspace = () => {
   const queryClient = useQueryClient();
 

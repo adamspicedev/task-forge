@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.workspaces)[":workspaceId"]["$patch"]
 >;
 
+/**
+ * @description Hook for updating a workspace
+ * @returns Mutation function
+ */
 export const useUpdateWorkspace = () => {
   const queryClient = useQueryClient();
 

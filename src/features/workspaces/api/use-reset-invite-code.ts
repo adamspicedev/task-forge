@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"]
 >;
 
+/**
+ * @description Hook for resetting a workspace's invite code
+ * @returns Mutation function
+ */
 export const useResetInviteCode = () => {
   const queryClient = useQueryClient();
 

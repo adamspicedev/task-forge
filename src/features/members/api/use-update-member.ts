@@ -12,6 +12,10 @@ type RequestType = InferRequestType<
   (typeof client.api.members)[":memberId"]["$patch"]
 >;
 
+/**
+ * @description Hook for updating a member
+ * @returns Mutation function
+ */
 export const useUpdateMember = () => {
   const queryClient = useQueryClient();
 
