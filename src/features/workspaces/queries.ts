@@ -8,6 +8,10 @@ import { createSessionClient } from "@/lib/appwrite";
 import { getMember } from "../members/utils";
 import { Workspace } from "./types";
 
+/**
+ * @description Gets workspaces for the current user
+ * @returns Workspaces
+ */
 export async function getWorkspaces() {
   try {
     const { account, databases } = await createSessionClient();
@@ -34,6 +38,11 @@ export async function getWorkspaces() {
   }
 }
 
+/**
+ * @description Gets a workspace by ID
+ * @param workspaceId - Workspace ID
+ * @returns Workspace
+ */
 export async function getWorkspace(workspaceId: string) {
   try {
     const { account, databases } = await createSessionClient();
@@ -54,6 +63,11 @@ export async function getWorkspace(workspaceId: string) {
   }
 }
 
+/**
+ * @description Gets a workspace's info by ID
+ * @param workspaceId - Workspace ID
+ * @returns Workspace info
+ */
 export async function getWorkspaceInfo(workspaceId: string) {
   try {
     const { databases } = await createSessionClient();

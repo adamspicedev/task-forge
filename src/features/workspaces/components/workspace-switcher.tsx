@@ -16,7 +16,7 @@ import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
-import { useCreateWorkspaceModal } from "../hooks/use-creat-workspace-modal";
+import { useCreateWorkspaceModal } from "../hooks/use-create-workspace-modal";
 
 export function WorkspaceSwitcher() {
   const workspaceId = useWorkspaceId();

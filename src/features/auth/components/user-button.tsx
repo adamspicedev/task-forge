@@ -14,7 +14,7 @@ import { useCurrent } from "@/features/auth/api/use-current";
 
 import { useSignOut } from "../api/use-sign-out";
 
-export const UserButton = () => {
+export function UserButton() {
   const { data: user, isLoading } = useCurrent();
   const { mutate: signOut, isPending: isSigningOut } = useSignOut();
 
@@ -73,4 +73,4 @@ export const UserButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}

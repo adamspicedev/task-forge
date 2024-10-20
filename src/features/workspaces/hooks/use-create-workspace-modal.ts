@@ -1,5 +1,9 @@
 import { parseAsBoolean, useQueryState } from "nuqs";
 
+/**
+ * @description Hook for creating a workspace modal
+ * @returns Modal functions
+ */
 export function useCreateWorkspaceModal() {
   const [isOpen, setIsOpen] = useQueryState(
     "create-workspace",

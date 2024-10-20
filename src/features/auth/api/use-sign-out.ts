@@ -10,6 +10,10 @@ type ResponseType = InferResponseType<
   (typeof client.api.auth.signout)["$post"]
 >;
 
+/**
+ * @description Hook for signing out
+ * @returns Mutation function
+ */
 export const useSignOut = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
