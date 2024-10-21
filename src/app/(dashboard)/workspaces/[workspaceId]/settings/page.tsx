@@ -15,7 +15,6 @@ export default async function WorkspaceIdSettingsPage({
   if (!user) redirect("/sign-in");
 
   const initialValues = await getWorkspace(params.workspaceId);
-  if (!initialValues) redirect(`/workspaces/${params.workspaceId}`);
 
   return (
     <div className="w-full max-w-xl">
