@@ -3,6 +3,7 @@
 import { FolderIcon, ListCheckIcon, UserIcon } from "lucide-react";
 
 import { DatePicker } from "@/components/date-picker";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -121,14 +122,23 @@ export function DataFilters({ _hideProjectFilter }: DataFiltersProps) {
         </SelectContent>
       </Select>
 
-      <DatePicker
-        placeholder="Due date"
-        className="h-8 w-full lg:w-auto"
-        value={dueDate ? new Date(dueDate) : undefined}
-        onChange={(date) =>
-          setTaskFilters({ dueDate: date ? date.toISOString() : null })
-        }
-      />
+      <div className="flex flex-row items-center gap-x-1">
+        <DatePicker
+          placeholder="Due date"
+          className="h-8 w-full flex-1 lg:w-auto"
+          value={dueDate ? new Date(dueDate) : undefined}
+          onChange={(date) =>
+            setTaskFilters({ dueDate: date ? date.toISOString() : null })
+          }
+        />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTaskFilters({ dueDate: null })}
+        >
+          X
+        </Button>
+      </div>
     </div>
   );
 }

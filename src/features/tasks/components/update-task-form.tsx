@@ -30,14 +30,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { createTaskSchema } from "@/features/tasks/schemas";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { cn } from "@/lib/utils";
 
-import { useCreateTask } from "../api/use-create-task";
-import { TaskStatus } from "../types";
+import { useUpdateTask } from "../api/use-update-task";
+import { Task, TaskStatus } from "../types";
 import { toPrettyTaskStatus } from "../utils";
 
-interface CreateTaskFormProps {
+interface UpdateTaskFormProps {
   onCancel?: () => void;
   projectOptions: {
     id: string;
@@ -48,27 +47,33 @@ interface CreateTaskFormProps {
     id: string;
     name: string;
   }[];
+  initialValues: Task;
 }
 
-type CreateTaskFormSchema = z.infer<typeof createTaskSchema>;
+type CreateTaskFormSchema = Partial<z.infer<typeof createTaskSchema>>;
 
-export function CreateTaskForm({
+export function UpdateTaskForm({
   onCancel,
   projectOptions,
   memberOptions,
-}: CreateTaskFormProps) {
-  const workspaceId = useWorkspaceId();
-  const { mutate, isPending } = useCreateTask();
+  initialValues,
+}: UpdateTaskFormProps) {
+  const { mutate, isPending } = useUpdateTask();
   const form = useForm<CreateTaskFormSchema>({
-    resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
+    resolver: zodResolver(
+      createTaskSchema.omit({ workspaceId: true, description: true })
+    ),
     defaultValues: {
-      workspaceId,
+      ...initialValues,
+      dueDate: initialValues.dueDate
+        ? new Date(initialValues.dueDate)
+        : undefined,
     },
   });
 
   const onSubmit = (values: CreateTaskFormSchema) => {
     mutate(
-      { json: { ...values, workspaceId } },
+      { json: values, param: { taskId: initialValues.$id } },
       {
         onSuccess: () => {
           form.reset();
@@ -82,7 +87,7 @@ export function CreateTaskForm({
   return (
     <Card className="h-full w-full border-none shadow-sm">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create task</CardTitle>
+        <CardTitle className="text-xl font-bold">Update task</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator className="mb-1" />
@@ -257,7 +262,7 @@ export function CreateTaskForm({
                 {isPending ? (
                   <Loader className="size-4 animate-spin" />
                 ) : (
-                  "Create Task"
+                  "Update Task"
                 )}
               </Button>
             </div>
