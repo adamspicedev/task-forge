@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { RiAddCircleFill } from "react-icons/ri";
 
 import {
@@ -21,12 +22,13 @@ import { useCreateWorkspaceModal } from "../hooks/use-create-workspace-modal";
 export function WorkspaceSwitcher() {
   const workspaceId = useWorkspaceId();
   const { open } = useCreateWorkspaceModal();
-
+  const queryClient = useQueryClient();
   const { data: workspaces, isPending } = useGetWorkspaces();
   const router = useRouter();
 
   const onSelect = (workspaceId: string) => {
     router.push(`/workspaces/${workspaceId}`);
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
   };
 
   return (

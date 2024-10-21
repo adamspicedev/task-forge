@@ -4,7 +4,6 @@ import { Fragment } from "react";
 
 import { MoreHorizontalIcon } from "lucide-react";
 
-import { BackButton } from "@/components/back-button";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -61,7 +60,6 @@ export function MembersList() {
     <Card className="h-full w-full border-none shadow-none">
       <ConfirmDialog />
       <CardHeader className="p7 flex flex-row items-center gap-x-4 space-y-0">
-        <BackButton workSpaceId={workspaceId} />
         <CardTitle className="text-xl font-bold">Members list</CardTitle>
       </CardHeader>
       <div className="px-7">
