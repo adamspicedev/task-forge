@@ -15,7 +15,7 @@ import { ProjectAvatar } from "./project-avatar";
 
 export function Projects() {
   const workspaceId = useWorkspaceId();
-  const { data: projects, isPending } = useGetProjects(workspaceId);
+  const { data: projects, isPending } = useGetProjects({ workspaceId });
   const pathname = usePathname();
   const { open } = useCreateProjectModal();
 

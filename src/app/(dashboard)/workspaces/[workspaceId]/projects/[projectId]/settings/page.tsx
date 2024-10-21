@@ -14,7 +14,7 @@ export default async function ProjectSettingsPage({
   const user = await protectPage();
   if (!user) redirect("/sign-in");
 
-  const initialValues = await getProject(params.projectId);
+  const initialValues = await getProject({ projectId: params.projectId });
 
   return (
     <div className="w-full max-w-xl">

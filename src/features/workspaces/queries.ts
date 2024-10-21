@@ -41,7 +41,11 @@ export async function getWorkspaces() {
 export async function getWorkspace(workspaceId: string) {
   const { account, databases } = await createSessionClient();
   const user = await account.get();
-  const member = await getMember(databases, workspaceId, user.$id);
+  const member = await getMember({
+    databases,
+    workspaceId,
+    userId: user.$id,
+  });
 
   if (!member) throw new Error("Unauthorized");
 

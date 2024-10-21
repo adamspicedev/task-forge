@@ -21,7 +21,11 @@ const app = new Hono()
       const user = c.get("user");
       const { users } = await createAdminClient();
 
-      const member = await getMember(databases, workspaceId, user.$id);
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
 
       if (!member) {
         return c.json({ error: "Unauthorized" }, 401);
@@ -58,11 +62,11 @@ const app = new Hono()
       [Query.equal("workspaceId", memberToDelete.workspaceId)]
     );
 
-    const member = await getMember(
+    const member = await getMember({
       databases,
-      memberToDelete.workspaceId,
-      user.$id
-    );
+      workspaceId: memberToDelete.workspaceId,
+      userId: user.$id,
+    });
 
     if (!member) {
       return c.json({ error: "Unauthorized" }, 401);
@@ -102,11 +106,11 @@ const app = new Hono()
         [Query.equal("workspaceId", memberToUpdate.workspaceId)]
       );
 
-      const member = await getMember(
+      const member = await getMember({
         databases,
-        memberToUpdate.workspaceId,
-        user.$id
-      );
+        workspaceId: memberToUpdate.workspaceId,
+        userId: user.$id,
+      });
 
       if (!member) {
         return c.json({ error: "Unauthorized" }, 401);

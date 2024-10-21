@@ -113,7 +113,11 @@ const app = new Hono()
       const storage = c.get("storage");
       const user = c.get("user");
 
-      const member = await getMember(databases, workspaceId, user.$id);
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
 
       if (!member || member.role !== MemberRole.ADMIN) {
         return c.json({ error: "You are not a member of this workspace" }, 401);
@@ -155,7 +159,11 @@ const app = new Hono()
     const databases = c.get("databases");
     const user = c.get("user");
 
-    const member = await getMember(databases, workspaceId, user.$id);
+    const member = await getMember({
+      databases,
+      workspaceId,
+      userId: user.$id,
+    });
 
     if (!member || member.role !== MemberRole.ADMIN) {
       return c.json({ error: "Unauthorized" }, 401);
@@ -172,7 +180,11 @@ const app = new Hono()
     const databases = c.get("databases");
     const user = c.get("user");
 
-    const member = await getMember(databases, workspaceId, user.$id);
+    const member = await getMember({
+      databases,
+      workspaceId,
+      userId: user.$id,
+    });
 
     if (!member || member.role !== MemberRole.ADMIN) {
       return c.json({ error: "Unauthorized" }, 401);
@@ -200,7 +212,11 @@ const app = new Hono()
       const databases = c.get("databases");
       const user = c.get("user");
 
-      const member = await getMember(databases, workspaceId, user.$id);
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
 
       if (member) {
         return c.json(

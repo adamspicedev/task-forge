@@ -27,7 +27,11 @@ const app = new Hono()
         return c.json({ error: "Workspace ID is required" }, 400);
       }
 
-      const member = await getMember(databases, workspaceId, user.$id);
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
 
       if (!member) {
         return c.json({ error: "Unauthorized" }, 401);
@@ -51,7 +55,11 @@ const app = new Hono()
       const user = c.get("user");
       const storage = c.get("storage");
 
-      const member = await getMember(databases, workspaceId, user.$id);
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
 
       if (!member) {
         return c.json({ error: "Unauthorized" }, 401);
@@ -104,11 +112,11 @@ const app = new Hono()
         projectId
       );
 
-      const member = await getMember(
+      const member = await getMember({
         databases,
-        existingProject.workspaceId,
-        user.$id
-      );
+        workspaceId: existingProject.workspaceId,
+        userId: user.$id,
+      });
 
       if (!member) {
         return c.json({ error: "Unauthorized" }, 401);
@@ -156,11 +164,11 @@ const app = new Hono()
       projectId
     );
 
-    const member = await getMember(
+    const member = await getMember({
       databases,
-      existingProject.workspaceId,
-      user.$id
-    );
+      workspaceId: existingProject.workspaceId,
+      userId: user.$id,
+    });
 
     if (!member) {
       return c.json({ error: "Unauthorized" }, 401);

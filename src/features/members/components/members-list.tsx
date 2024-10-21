@@ -25,7 +25,7 @@ import { MemberAvatar } from "./member-avatar";
 
 export function MembersList() {
   const workspaceId = useWorkspaceId();
-  const { data: members } = useGetMembers(workspaceId);
+  const { data: members } = useGetMembers({ workspaceId });
   const { mutate: deleteMember, isPending: isDeletingMember } =
     useDeleteMember();
   const { mutate: updateMember, isPending: isUpdatingMember } =
