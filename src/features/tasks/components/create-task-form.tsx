@@ -1,6 +1,7 @@
 "use client";
 
-import { DevTool } from "@hookform/devtools";
+import { useRouter } from "next/router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -26,7 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { createTaskSchema } from "@/features/tasks/schemas";
@@ -57,6 +57,7 @@ export function CreateTaskForm({
   projectOptions,
   memberOptions,
 }: CreateTaskFormProps) {
+  const router = useRouter();
   const workspaceId = useWorkspaceId();
   const { mutate, isPending } = useCreateTask();
   const form = useForm<CreateTaskFormSchema>({
@@ -70,10 +71,11 @@ export function CreateTaskForm({
     mutate(
       { json: { ...values, workspaceId } },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.reset();
           onCancel?.();
-          //TODO: redirect to new task page
+
+          router.push(`/workspaces/${workspaceId}/tasks/${data.$id}`);
         },
       }
     );
@@ -101,23 +103,6 @@ export function CreateTaskForm({
                       <Input
                         {...field}
                         placeholder="Enter a name for your task"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Enter a description for your task"
                       />
                     </FormControl>
                     <FormMessage />
@@ -175,7 +160,7 @@ export function CreateTaskForm({
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>des
+                    <FormLabel>Status</FormLabel>
                     <Select
                       defaultValue={field.value}
                       onValueChange={field.onChange}
@@ -261,7 +246,6 @@ export function CreateTaskForm({
                 )}
               </Button>
             </div>
-            <DevTool control={form.control} />
           </form>
         </Form>
       </CardContent>

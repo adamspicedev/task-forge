@@ -45,6 +45,22 @@ const app = new Hono()
       return c.json({ data: { ...members, documents: populatedMembers } });
     }
   )
+  .get("/:workspaceId/:userId", sessionMiddleware, async (c) => {
+    const { workspaceId, userId } = c.req.param();
+    const databases = c.get("databases");
+
+    const member = await getMember({
+      databases,
+      workspaceId,
+      userId,
+    });
+
+    if (!member) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    return c.json({ data: member });
+  })
   .delete("/:memberId", sessionMiddleware, async (c) => {
     const { memberId } = c.req.param();
     const databases = c.get("databases");

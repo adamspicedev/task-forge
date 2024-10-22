@@ -25,7 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { createTaskSchema } from "@/features/tasks/schemas";
@@ -77,7 +76,6 @@ export function UpdateTaskForm({
         onSuccess: () => {
           form.reset();
           onCancel?.();
-          //TODO: redirect to new task page
         },
       }
     );
@@ -105,23 +103,6 @@ export function UpdateTaskForm({
                       <Input
                         {...field}
                         placeholder="Enter a name for your task"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Enter a description for your task"
                       />
                     </FormControl>
                     <FormMessage />
@@ -179,7 +160,7 @@ export function UpdateTaskForm({
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>des
+                    <FormLabel>Status</FormLabel>
                     <Select
                       defaultValue={field.value}
                       onValueChange={field.onChange}

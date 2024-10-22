@@ -1,24 +1,12 @@
 import { redirect } from "next/navigation";
 
 import { protectPage } from "@/features/auth/queries";
-import { UpdateWorkspaceForm } from "@/features/workspaces/components/update-workspace-form";
-import { getWorkspace } from "@/features/workspaces/queries";
 
-interface WorkspaceIdSettingsPageProps {
-  params: { workspaceId: string };
-}
+import WorkspaceIdSettingsClient from "./client";
 
-export default async function WorkspaceIdSettingsPage({
-  params,
-}: WorkspaceIdSettingsPageProps) {
+export default async function WorkspaceIdSettingsPage() {
   const user = await protectPage();
   if (!user) redirect("/sign-in");
 
-  const initialValues = await getWorkspace(params.workspaceId);
-
-  return (
-    <div className="w-full max-w-xl">
-      <UpdateWorkspaceForm initialValues={initialValues} />
-    </div>
-  );
+  return <WorkspaceIdSettingsClient />;
 }

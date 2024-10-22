@@ -8,6 +8,7 @@ import { useQueryState } from "nuqs";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetMember } from "@/features/members/api/use-get-member";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { useBulkUpdateTasks } from "../api/use-bulk-update-tasks";
@@ -23,16 +24,25 @@ import { DataTable } from "./data-table";
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
+  defaultProjectId?: string;
+  defaultUserId?: string;
 }
 
 export default function TaskViewSwitcher({
   hideProjectFilter,
+  defaultProjectId,
+  defaultUserId,
 }: TaskViewSwitcherProps) {
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
   });
   const workspaceId = useWorkspaceId();
   const { setIsOpen } = useCreateTaskModal();
+
+  const { data: defaultAssigneeId } = useGetMember({
+    workspaceId,
+    userId: defaultUserId!,
+  });
 
   const [{ projectId, status, assigneeId, search, dueDate }] = useTaskFilters();
   const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
@@ -82,7 +92,11 @@ export default function TaskViewSwitcher({
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-        <DataFilters hideProjectFilter={hideProjectFilter} />
+        <DataFilters
+          hideProjectFilter={hideProjectFilter}
+          defaultProjectId={defaultProjectId}
+          defaultAssigneeId={defaultAssigneeId?.$id}
+        />
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
           <div className="flex h-full items-center justify-center">
