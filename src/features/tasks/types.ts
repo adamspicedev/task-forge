@@ -26,3 +26,9 @@ export interface PopulatedTask extends Task {
   project?: Project;
   assignee?: Member;
 }
+
+export type TaskPayload = {
+  $id: string;
+  status: TaskStatus;
+  position: number;
+};

@@ -42,3 +42,13 @@ export const createTaskSchema = z.object({
   description: z.string().trim().optional(),
   dueDate: z.coerce.date(),
 });
+
+export const bulkUpdateTasksSchema = z.object({
+  tasks: z.array(
+    z.object({
+      $id: z.string(),
+      status: z.nativeEnum(TaskStatus),
+      position: z.number().int().positive().min(1000).max(1_000_000),
+    })
+  ),
+});
