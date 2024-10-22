@@ -1,6 +1,5 @@
 "use client";
 
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -266,7 +265,6 @@ export function UpdateTaskForm({
                 )}
               </Button>
             </div>
-            <DevTool control={form.control} />
           </form>
         </Form>
       </CardContent>

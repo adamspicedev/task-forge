@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 
-import { MoreHorizontalIcon } from "lucide-react";
+import { MoreVerticalIcon } from "lucide-react";
 
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,7 @@ export function MembersList() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button size="icon" variant="secondary" className="ml-auto">
-                    <MoreHorizontalIcon className="size-4 text-muted-foreground" />
+                    <MoreVerticalIcon className="size-4 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="bottom" align="end">

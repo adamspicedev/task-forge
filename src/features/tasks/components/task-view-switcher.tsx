@@ -21,7 +21,13 @@ import { DataFilters } from "./data-filters";
 import DataKanban from "./data-kanban";
 import { DataTable } from "./data-table";
 
-export default function TaskViewSwitcher() {
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+
+export default function TaskViewSwitcher({
+  hideProjectFilter,
+}: TaskViewSwitcherProps) {
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
   });
@@ -76,7 +82,7 @@ export default function TaskViewSwitcher() {
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-        <DataFilters />
+        <DataFilters hideProjectFilter={hideProjectFilter} />
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
           <div className="flex h-full items-center justify-center">

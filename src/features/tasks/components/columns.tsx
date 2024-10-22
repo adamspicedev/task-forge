@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontalIcon } from "lucide-react";
+import { ArrowUpDown, MoreVerticalIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -126,7 +126,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <TaskActions id={id} projectId={projectId}>
           <Button variant="ghost" size="icon" className="size-8 p-0">
-            <MoreHorizontalIcon />
+            <MoreVerticalIcon />
           </Button>
         </TaskActions>
       );

@@ -21,10 +21,10 @@ import { TaskStatus } from "../types";
 import { toPrettyTaskStatus } from "../utils";
 
 interface DataFiltersProps {
-  _hideProjectFilter?: boolean;
+  hideProjectFilter?: boolean;
 }
 
-export function DataFilters({ _hideProjectFilter }: DataFiltersProps) {
+export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
   const workspaceId = useWorkspaceId();
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
     workspaceId,
@@ -101,26 +101,28 @@ export function DataFilters({ _hideProjectFilter }: DataFiltersProps) {
         </SelectContent>
       </Select>
 
-      <Select
-        defaultValue={projectId ?? undefined}
-        onValueChange={onProjectChange}
-      >
-        <SelectTrigger className="h-8 w-full lg:w-auto">
-          <div className="flex items-center pr-2">
-            <FolderIcon className="mr-2 size-4" />
-            <SelectValue placeholder="All projects" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All projects</SelectItem>
-          <SelectSeparator />
-          {projectOptions?.map((project) => (
-            <SelectItem key={project.value} value={project.value}>
-              {project.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {!hideProjectFilter && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={onProjectChange}
+        >
+          <SelectTrigger className="h-8 w-full lg:w-auto">
+            <div className="flex items-center pr-2">
+              <FolderIcon className="mr-2 size-4" />
+              <SelectValue placeholder="All projects" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All projects</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map((project) => (
+              <SelectItem key={project.value} value={project.value}>
+                {project.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       <div className="flex flex-row items-center gap-x-1">
         <DatePicker
