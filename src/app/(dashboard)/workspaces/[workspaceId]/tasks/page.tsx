@@ -9,7 +9,7 @@ export default async function TasksPage() {
 
   return (
     <div className="flex h-full flex-col">
-      <TaskViewSwitcher />
+      <TaskViewSwitcher defaultUserId={user.$id} hideProjectFilter={false} />
     </div>
   );
 }

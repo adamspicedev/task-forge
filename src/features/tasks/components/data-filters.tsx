@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { FolderIcon, ListCheckIcon, UserIcon } from "lucide-react";
 
 import { DatePicker } from "@/components/date-picker";
@@ -15,6 +17,7 @@ import {
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { cn } from "@/lib/utils";
 
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { TaskStatus } from "../types";
@@ -22,9 +25,15 @@ import { toPrettyTaskStatus } from "../utils";
 
 interface DataFiltersProps {
   hideProjectFilter?: boolean;
+  defaultProjectId?: string;
+  defaultAssigneeId?: string;
 }
 
-export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
+export function DataFilters({
+  hideProjectFilter,
+  defaultProjectId,
+  defaultAssigneeId,
+}: DataFiltersProps) {
   const workspaceId = useWorkspaceId();
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
     workspaceId,
@@ -58,6 +67,20 @@ export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
     setTaskFilters({ projectId: value === "all" ? null : value });
   };
 
+  useEffect(() => {
+    if (defaultProjectId) {
+      setTaskFilters({ projectId: defaultProjectId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultProjectId]);
+
+  useEffect(() => {
+    if (defaultAssigneeId) {
+      setTaskFilters({ assigneeId: defaultAssigneeId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultAssigneeId]);
+
   if (isLoading) return null;
 
   return (
@@ -81,7 +104,9 @@ export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
       </Select>
 
       <Select
-        defaultValue={assigneeId ?? undefined}
+        defaultValue={
+          defaultAssigneeId ? defaultAssigneeId : (assigneeId ?? undefined)
+        }
         onValueChange={onAssigneeChange}
       >
         <SelectTrigger className="h-8 w-full lg:w-auto">
@@ -103,10 +128,12 @@ export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
 
       {!hideProjectFilter && (
         <Select
-          defaultValue={projectId ?? undefined}
+          defaultValue={
+            defaultProjectId ? defaultProjectId : (projectId ?? undefined)
+          }
           onValueChange={onProjectChange}
         >
-          <SelectTrigger className="h-8 w-full lg:w-auto">
+          <SelectTrigger className={cn("h-8 w-full lg:w-auto")}>
             <div className="flex items-center pr-2">
               <FolderIcon className="mr-2 size-4" />
               <SelectValue placeholder="All projects" />
