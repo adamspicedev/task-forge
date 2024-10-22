@@ -15,7 +15,7 @@ import { ProjectAvatar } from "./project-avatar";
 
 export function Projects() {
   const workspaceId = useWorkspaceId();
-  const { data: projects, isPending } = useGetProjects(workspaceId);
+  const { data: projects, isPending } = useGetProjects({ workspaceId });
   const pathname = usePathname();
   const { open } = useCreateProjectModal();
 
@@ -47,7 +47,7 @@ export function Projects() {
             <Link href={{ pathname: href }} key={project.$id}>
               <div
                 className={cn(
-                  "flex cursor-pointer items-center gap-2.5 rounded-md text-neutral-500 transition hover:opacity-75",
+                  "flex items-center gap-2.5 rounded-md p-2 font-medium text-neutral-500 transition hover:text-primary",
                   isActive &&
                     "bg-white text-primary shadow-sm hover:opacity-100"
                 )}
@@ -55,7 +55,7 @@ export function Projects() {
                 <ProjectAvatar
                   image={project.image}
                   name={project.name}
-                  fallbackClassName="bg-neutral-200"
+                  fallbackClassName={isActive ? "" : "bg-neutral-200"}
                 />
                 <span className="truncate">{project.name}</span>
               </div>

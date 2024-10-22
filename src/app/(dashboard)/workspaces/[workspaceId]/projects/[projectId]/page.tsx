@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { protectPage } from "@/features/auth/queries";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { getProject } from "@/features/projects/queries";
+import TaskViewSwitcher from "@/features/tasks/components/task-view-switcher";
 
 interface ProjectPageProps {
   params: { projectId: string };
@@ -16,7 +17,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const user = await protectPage();
   if (!user) redirect("/sign-in");
 
-  const initialValues = await getProject(params.projectId);
+  const initialValues = await getProject({ projectId: params.projectId });
 
   if (!initialValues) {
     throw new Error("Project not found");
@@ -44,6 +45,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </Button>
         </div>
       </div>
+      <TaskViewSwitcher hideProjectFilter={true} />
     </div>
   );
 }
