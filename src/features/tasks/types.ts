@@ -32,3 +32,5 @@ export type TaskPayload = {
   status: TaskStatus;
   position: number;
 };
+
+export type DateAction = "PREV" | "NEXT" | "TODAY";
