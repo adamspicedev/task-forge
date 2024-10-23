@@ -7,7 +7,7 @@ import { createAdminClient } from "@/lib/appwrite";
 import { sessionMiddleware } from "@/lib/session-middleware";
 
 import { getMembersForWorkspaceSchema, updateMemberSchema } from "../schemas";
-import { MemberRole } from "../types";
+import { Member, MemberRole } from "../types";
 import { getMember } from "../utils";
 
 const app = new Hono()
@@ -31,9 +31,11 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const members = await databases.listDocuments(DATABASE_ID, MEMBERS_ID, [
-        Query.equal("workspaceId", workspaceId),
-      ]);
+      const members = await databases.listDocuments<Member>(
+        DATABASE_ID,
+        MEMBERS_ID,
+        [Query.equal("workspaceId", workspaceId)]
+      );
 
       const populatedMembers = await Promise.all(
         members.documents.map(async (member) => {
@@ -66,13 +68,13 @@ const app = new Hono()
     const databases = c.get("databases");
     const user = c.get("user");
 
-    const memberToDelete = await databases.getDocument(
+    const memberToDelete = await databases.getDocument<Member>(
       DATABASE_ID,
       MEMBERS_ID,
       memberId
     );
 
-    const allMembersInWorkSpace = await databases.listDocuments(
+    const allMembersInWorkSpace = await databases.listDocuments<Member>(
       DATABASE_ID,
       MEMBERS_ID,
       [Query.equal("workspaceId", memberToDelete.workspaceId)]
@@ -110,13 +112,13 @@ const app = new Hono()
       const databases = c.get("databases");
       const user = c.get("user");
 
-      const memberToUpdate = await databases.getDocument(
+      const memberToUpdate = await databases.getDocument<Member>(
         DATABASE_ID,
         MEMBERS_ID,
         memberId
       );
 
-      const allMembersInWorkSpace = await databases.listDocuments(
+      const allMembersInWorkSpace = await databases.listDocuments<Member>(
         DATABASE_ID,
         MEMBERS_ID,
         [Query.equal("workspaceId", memberToUpdate.workspaceId)]
@@ -143,7 +145,7 @@ const app = new Hono()
         return c.json({ error: "Cannot downgrade last member" }, 400);
       }
 
-      await databases.updateDocument(
+      await databases.updateDocument<Member>(
         DATABASE_ID,
         MEMBERS_ID,
         memberToUpdate.$id,

@@ -4,21 +4,37 @@ import Link from "next/link";
 
 import { Pencil1Icon } from "@radix-ui/react-icons";
 
+import { Analytics } from "@/components/analytics";
 import { PageError } from "@/components/page-error";
 import { PageLoader } from "@/components/page-loader";
 import { Button } from "@/components/ui/button";
 import { useGetProject } from "@/features/projects/api/use-get-project";
+import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import TaskViewSwitcher from "@/features/tasks/components/task-view-switcher";
 
 export default function ProjectIdClient() {
   const projectId = useProjectId();
-  const { data: project, isLoading, error } = useGetProject({ projectId });
+  const {
+    data: project,
+    isLoading: isProjectLoading,
+    error: projectError,
+  } = useGetProject({ projectId });
+  const {
+    data: analytics,
+    isLoading: isAnalyticsLoading,
+    error: analyticsError,
+  } = useGetProjectAnalytics({ projectId });
+
+  const isLoading = isProjectLoading || isAnalyticsLoading;
+  const error = projectError || analyticsError;
 
   if (isLoading) return <PageLoader />;
 
-  if (error) return <PageError message="Task not found" />;
+  if (error) return <PageError message="Project not found" />;
+
+  if (!project || !analytics) return <PageError message="Project not found" />;
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -42,6 +58,7 @@ export default function ProjectIdClient() {
           </Button>
         </div>
       </div>
+      {analytics && <Analytics data={analytics} />}
       <TaskViewSwitcher hideProjectFilter={true} defaultProjectId={projectId} />
     </div>
   );

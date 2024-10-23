@@ -14,7 +14,6 @@ export function WorkspaceAvatar({
   name,
   className,
 }: WorkspaceAvatarProps) {
-  console.log({ image });
   if (image) {
     return (
       <div
