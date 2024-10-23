@@ -59,7 +59,7 @@ export default function ProjectIdClient() {
         </div>
       </div>
       {analytics && <Analytics data={analytics} />}
-      <TaskViewSwitcher hideProjectFilter={true} defaultProjectId={projectId} />
+      <TaskViewSwitcher hideProjectFilter={true} />
     </div>
   );
 }

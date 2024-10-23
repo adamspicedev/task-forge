@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
 
 import { useSignUp } from "../api/use-sign-up";
 import { signUpSchema } from "../schemas";
@@ -134,6 +135,7 @@ export function SignUpCard() {
       </div>
       <CardContent className="flex flex-col gap-y-4 p-7">
         <Button
+          onClick={() => signUpWithGoogle()}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -143,6 +145,7 @@ export function SignUpCard() {
           Sign up with Google
         </Button>
         <Button
+          onClick={() => signUpWithGithub()}
           variant="secondary"
           size="lg"
           className="w-full"
