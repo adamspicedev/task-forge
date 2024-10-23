@@ -9,6 +9,7 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetMember } from "@/features/members/api/use-get-member";
+import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { useBulkUpdateTasks } from "../api/use-bulk-update-tasks";
@@ -24,19 +25,18 @@ import { DataTable } from "./data-table";
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
-  defaultProjectId?: string;
   defaultUserId?: string;
 }
 
 export default function TaskViewSwitcher({
   hideProjectFilter,
-  defaultProjectId,
   defaultUserId,
 }: TaskViewSwitcherProps) {
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
   });
   const workspaceId = useWorkspaceId();
+  const paramProjectId = useProjectId();
   const { setIsOpen } = useCreateTaskModal();
 
   const { data: defaultAssigneeId } = useGetMember({
@@ -47,7 +47,7 @@ export default function TaskViewSwitcher({
   const [{ projectId, status, assigneeId, search, dueDate }] = useTaskFilters();
   const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
     workspaceId,
-    projectId,
+    projectId: paramProjectId ?? projectId,
     status,
     assigneeId,
     search,
@@ -94,7 +94,6 @@ export default function TaskViewSwitcher({
         <DottedSeparator className="my-4" />
         <DataFilters
           hideProjectFilter={hideProjectFilter}
-          defaultProjectId={defaultProjectId}
           defaultAssigneeId={defaultAssigneeId?.$id}
         />
         <DottedSeparator className="my-4" />
